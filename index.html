@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Canva-Style Resume Builder</title>
+    <title>Resume Builder</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
@@ -13,9 +13,9 @@
     <div class="toolbar">
         <label for="theme">Theme:</label>
         <select id="theme">
-            <option value="light-theme">Light</option>
-            <option value="dark-theme">Dark</option>
-            <option value="professional-theme">Professional</option>
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+            <option value="blue">Blue</option>
         </select>
 
         <label for="font">Font:</label>
@@ -29,24 +29,26 @@
         <input type="color" id="color">
     </div>
 
-    <div class="resume-container">
-        <ul id="resume-sections">
-            <li class="resume-section" draggable="true">
-                <h1 contenteditable="true" id="preview-name">Your Name</h1>
-            </li>
-            <li class="resume-section" draggable="true">
-                <p contenteditable="true" id="preview-email">your.email@example.com</p>
-            </li>
-            <li class="resume-section" draggable="true">
-                <p contenteditable="true" id="preview-phone">123-456-7890</p>
-            </li>
-            <li class="resume-section" draggable="true">
-                <p contenteditable="true" id="preview-summary">Write a short summary about yourself.</p>
-            </li>
-        </ul>
+    <div class="resume-container" id="resume">
+        <h1 contenteditable="true">😊 Your Name</h1>
+        <h3 contenteditable="true">📍 Location</h3>
+        <p contenteditable="true">📧 Email | 📞 Phone</p>
+        <hr>
 
-        <button id="download-pdf">Download Resume as PDF</button>
+        <h2>📝 About Me</h2>
+        <p contenteditable="true">Write about yourself here...</p>
+
+        <h2>🎓 Education</h2>
+        <p contenteditable="true">Degree | Institution | Year</p>
+
+        <h2>💼 Experience</h2>
+        <p contenteditable="true">Job Title | Company | Duration</p>
+
+        <h2>🌍 Languages</h2>
+        <p contenteditable="true">Add your languages here...</p>
     </div>
+
+    <button id="download-pdf">Download Resume</button>
 
     <script src="script.js"></script>
 </body>
