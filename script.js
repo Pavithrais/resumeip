@@ -1,60 +1,31 @@
-/* General */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    text-align: center;
-    padding: 20px;
-}
+document.addEventListener("DOMContentLoaded", function () {
+    const themeSelector = document.getElementById("theme");
+    const fontSelector = document.getElementById("font");
+    const colorPicker = document.getElementById("color");
+    const resume = document.getElementById("resume");
 
-/* Toolbar */
-.toolbar {
-    margin-bottom: 20px;
-}
+    // Theme Change
+    themeSelector.addEventListener("change", function () {
+        resume.className = "resume-container " + themeSelector.value;
+    });
 
-label, select, input {
-    margin-right: 10px;
-}
+    // Font Change
+    fontSelector.addEventListener("change", function () {
+        resume.style.fontFamily = fontSelector.value;
+    });
 
-/* Resume Styling */
-.resume-container {
-    width: 210mm;
-    height: 297mm;
-    margin: auto;
-    background: white;
-    padding: 20px;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
-    text-align: left;
-}
+    // Text Color Change
+    colorPicker.addEventListener("input", function () {
+        resume.style.color = colorPicker.value;
+    });
 
-/* Themes */
-.light {
-    background: white;
-    color: black;
-}
-
-.dark {
-    background: #222;
-    color: white;
-}
-
-.blue {
-    background: #e3f2fd;
-    color: black;
-}
-
-/* Button */
-button {
-    margin-top: 20px;
-    background-color: #007bff;
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #0056b3;
-}
-
+    // PDF Download
+    document.getElementById("download-pdf").addEventListener("click", function () {
+        html2canvas(resume, { scale: 2 }).then(canvas => {
+            const imgData = canvas.toDataURL("image/png");
+            const pdf = new jspdf.jsPDF("p", "mm", "a4");
+            pdf.addImage(imgData, "PNG", 10, 10, 190, 0);
+            pdf.save("Resume.pdf");
+        });
+    });
+});
