@@ -1,0 +1,145 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume Builder</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h2>Resume Builder</h2>
+        
+        <label for="name">Name:</label>
+        <input type="text" id="name" placeholder="Enter your name">
+        
+        <label for="email">Email:</label>
+        <input type="email" id="email" placeholder="Enter your email">
+        
+        <label for="education">Education:</label>
+        <input type="text" id="education" placeholder="Enter your education">
+        
+        <label for="skills">Skills (comma separated):</label>
+        <input type="text" id="skills" placeholder="E.g., Java, SQL, Python">
+        
+        <label for="color">Text Color:</label>
+        <input type="color" id="color">
+        
+        <label for="font">Font Style:</label>
+        <select id="font">
+            <option value="Arial">Arial</option>
+            <option value="Georgia">Georgia</option>
+            <option value="Courier New">Courier New</option>
+            <option value="Times New Roman">Times New Roman</option>
+        </select>
+        
+        <label for="theme">Select Theme:</label>
+        <select id="theme" onchange="changeTheme()">
+            <option value="light">Light</option>
+            <option value="dark">Dark</option>
+            <option value="custom">Custom</option>
+        </select>
+        
+        <button onclick="generateResume()">Generate Resume</button>
+        <button onclick="downloadPDF()">Download PDF</button>
+        <button onclick="checkATS()">Check ATS Score</button>
+        
+        <div id="resume-output"></div>
+        <p id="ats-score"></p>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>
+
+/* style.css */
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    width: 50%;
+    margin: auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+input, select {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    padding: 8px;
+}
+
+button {
+    padding: 10px;
+    background: blue;
+    color: white;
+    border: none;
+    cursor: pointer;
+    margin: 5px;
+}
+
+#resume-output {
+    margin-top: 20px;
+    padding: 20px;
+    background: #ddd;
+    text-align: left;
+    border-radius: 10px;
+}
+
+/* script.js */
+function generateResume() {
+    var name = document.getElementById("name").value;
+    var email = document.getElementById("email").value;
+    var education = document.getElementById("education").value;
+    var skills = document.getElementById("skills").value;
+    var textColor = document.getElementById("color").value;
+    var fontStyle = document.getElementById("font").value;
+    
+    var resumeHTML = `
+        <h3 style="color: ${textColor}; font-family: ${fontStyle};">${name}</h3>
+        <p style="color: ${textColor}; font-family: ${fontStyle};">Email: ${email}</p>
+        <p style="color: ${textColor}; font-family: ${fontStyle};">Education: ${education}</p>
+        <p style="color: ${textColor}; font-family: ${fontStyle};">Skills: ${skills}</p>
+    `;
+    
+    document.getElementById("resume-output").innerHTML = resumeHTML;
+}
+
+function downloadPDF() {
+    const { jsPDF } = window.jspdf;
+    var doc = new jsPDF();
+    doc.text(document.getElementById("resume-output").innerText, 10, 10);
+    doc.save("resume.pdf");
+}
+
+function checkATS() {
+    var skills = document.getElementById("skills").value.toLowerCase().split(",");
+    var requiredSkills = ["java", "sql", "python", "c++", "html", "css", "javascript"];
+    var matchCount = skills.filter(skill => requiredSkills.includes(skill.trim())).length;
+    var score = Math.min((matchCount / requiredSkills.length) * 100, 100);
+    document.getElementById("ats-score").innerText = "ATS Score: " + score.toFixed(2) + "%";
+}
+
+function changeTheme() {
+    var theme = document.getElementById("theme").value;
+    if (theme === "dark") {
+        document.body.style.background = "#222";
+        document.body.style.color = "white";
+    } else if (theme === "light") {
+        document.body.style.background = "#f4f4f4";
+        document.body.style.color = "black";
+    } else {
+        document.body.style.background = "#add8e6";
+        document.body.style.color = "black";
+    }
+}
